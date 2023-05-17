@@ -5,8 +5,9 @@ const {NodeSSH} = require('node-ssh')
 
 
 class sshUpdater {
-    constructor(ip, username, password) {
+    constructor(ip, port, username, password) {
         this.ip = ip;
+        this.port = port;
         this.username = username;
         this.password = password;
         this.ssh = new NodeSSH();
@@ -17,6 +18,7 @@ class sshUpdater {
             // SSH 연결 설정
             await this.ssh.connect({
               host: this.ip, // 접속할 서버 주소
+              port: this.port,
               username: this.username, // SSH 사용자 이름
               password: this.password // 서버 접속 비밀번호
             });
@@ -26,12 +28,14 @@ class sshUpdater {
            console.log("mivics service stopped !!")
       
           // 로컬 파일 읽기
-          const localFilePath = '/path/to/local/file'; // 로컬 파일 경로
+          const localFilePath = '/upload/vics'; // 로컬 파일 경로
           const localFileContent = fs.readFileSync(localFilePath);
       
           // 원격 서버로 파일 전송
-          const remoteFilePath = '/path/to/remote/file'; // 원격 서버 파일 경로
-          await this.ssh.putFile(localFilePath, remoteFilePath);
+          const remoteFilePath = '/home/mirero/VICS'; // 원격 서버 파일 경로
+          await this.ssh.putFile(localFilePath, remoteFilePath), {
+            overwrite: true
+          };
       
           console.log("file transfer end")
       

@@ -20,12 +20,12 @@ router.get("/" , (req,res) => {
 })
 
 router.post("/" , (req,res) => {
-    vics.set(req.body.ip, new sshUpdater(req.body.ip, req.body.username, req.body.password));
+    vics.set(req.body.ip, new sshUpdater(req.body.ip,req.body.port, req.body.username, req.body.password));
 })
 
 router.put("/" , (req,res) => {
     vics.delete(req.body.ip);
-    vics.set(req.body.ip, new sshUpdater(req.body.ip, req.body.username, req.body.password));
+    vics.set(req.body.ip, new sshUpdater(req.body.ip,req.body.port, req.body.username, req.body.password));
     res.json({ message: "작업 완료"});
 })
 
